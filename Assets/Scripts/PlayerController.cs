@@ -5,12 +5,12 @@ public class PlayerController : MonoBehaviour
 {
     public float jumpForce = 10f;
     public float gravityMultiplier = 1f;
-    // 1.15 handle game over state
     public bool gameOver = false;
+    // 4.1 add animator variable
+    public Animator animator;
     private Rigidbody rb;
     private InputAction jumpAction;
 
-    // 1.7 Add a boolean to check if the player is on the ground
     private bool isOnGround = true;
 
     void Awake()
@@ -22,41 +22,45 @@ public class PlayerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // 1.6 Apply gravity multiplier
         Physics.gravity *= gravityMultiplier;
+
+        // 4.1 set animator parameter's `Speed_f` to 1f at start to make player play running animation
+        if (animator != null)
+        {
+            animator.SetFloat("Speed_f", 1f);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        // 1.16 if game over, stop the player from moving or jumping
         if (gameOver)
         {
             return;
         }
 
-        // 1.7 add isOnGround check before allowing the player to jump
         if (jumpAction.triggered && isOnGround)
         {
-            // 1.5 make it jump
             rb.AddForce(jumpForce * Vector3.up, ForceMode.Impulse);
-            // 1.7 set isOnGround to false when the player jumps
             isOnGround = false;
+            // 4.2 set animator trigger `Jump_trig` to make player play jump animation
+            animator.SetTrigger("Jump_trig");
         }
     }
 
-    // 1.7 Set isOnGround to true when the player collides with the ground
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
             isOnGround = true;
         }
-        // 1.15 handle game over state when colliding with an obstacle
         else if (collision.gameObject.CompareTag("Obstacle"))
         {
             Debug.Log("Game Over!");
             gameOver = true;
+            // 4.4 set animator parameter `Death_b` to true to make player play death animation
+            animator.SetBool("Death_b", true);
+            animator.SetInteger("DeathType_int", 1);
         }
     }
 }

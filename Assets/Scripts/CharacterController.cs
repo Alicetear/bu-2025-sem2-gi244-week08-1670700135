@@ -63,6 +63,7 @@ public class CharacterController : MonoBehaviour
         if (useWeaponAction.triggered)
         {
             isUsingHandgun = !isUsingHandgun;
+            // 6.4 make handgun visible
             handgun.SetActive(isUsingHandgun);
         }
 
@@ -70,8 +71,13 @@ public class CharacterController : MonoBehaviour
         if (anim != null)
         {
             float speed = Mathf.Abs(moveInput.y);
-            anim.SetFloat(moveParameter, speed);
+            // 6.2 set crouch parrameter
             anim.SetBool(crouchParameter, isCrouching);
+
+            // 6.3 set speed parameter to make character play run/walk animation
+            anim.SetFloat(moveParameter, speed);
+
+            // 6.4 set weaponType to one, to make player hold handGun
             anim.SetInteger(weaponTypeParameter, isUsingHandgun ? 1 : 0);
         }
     }

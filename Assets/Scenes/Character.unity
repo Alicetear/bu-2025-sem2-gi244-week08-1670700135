@@ -426,6 +426,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SimplePeople_Man_Business_Black
       objectReference: {fileID: 0}
+    - target: {fileID: 140800, guid: 2f8d00bf5057f624e949aef802595da9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 2f8d00bf5057f624e949aef802595da9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
